@@ -5,16 +5,19 @@
   
   <title>探讨有关singleTask在android5.0以上出现黑闪问题 | Roger的技术小屋</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
+  <meta name="description" content="最近项目在大部分android5.0+手机上，Activity跳转会出现黑闪情况，于是乎阅读了下项目框架，并做了些小实验来查找出问题所在，记录下算作技术积累。
+Acitvity跳转规则由于项目是由多个模块组成，项目为了模块间的跳转与外部唤起App内部保持一致，Acitvity以uri的形式表示，这样我们就通过uri进行跳转(startActivity)。在此情况下，增加一个中转页面(Forward">
 <meta property="og:type" content="article">
 <meta property="og:title" content="探讨有关singleTask在android5.0以上出现黑闪问题">
 <meta property="og:url" content="http://rogerwp.github.io/2016/04/30/探讨有关singleTask在android5-0以上出现黑闪问题/index.html">
 <meta property="og:site_name" content="Roger的技术小屋">
-<meta property="og:description">
-<meta property="og:updated_time" content="2016-04-30T15:21:42.000Z">
+<meta property="og:description" content="最近项目在大部分android5.0+手机上，Activity跳转会出现黑闪情况，于是乎阅读了下项目框架，并做了些小实验来查找出问题所在，记录下算作技术积累。
+Acitvity跳转规则由于项目是由多个模块组成，项目为了模块间的跳转与外部唤起App内部保持一致，Acitvity以uri的形式表示，这样我们就通过uri进行跳转(startActivity)。在此情况下，增加一个中转页面(Forward">
+<meta property="og:updated_time" content="2016-05-14T01:26:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="探讨有关singleTask在android5.0以上出现黑闪问题">
-<meta name="twitter:description">
+<meta name="twitter:description" content="最近项目在大部分android5.0+手机上，Activity跳转会出现黑闪情况，于是乎阅读了下项目框架，并做了些小实验来查找出问题所在，记录下算作技术积累。
+Acitvity跳转规则由于项目是由多个模块组成，项目为了模块间的跳转与外部唤起App内部保持一致，Acitvity以uri的形式表示，这样我们就通过uri进行跳转(startActivity)。在此情况下，增加一个中转页面(Forward">
   
     <link rel="alternate" href="/atom.xml" title="Roger的技术小屋" type="application/atom+xml">
   
@@ -85,11 +88,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>最近项目在大部分android5.0+手机上，Activity跳转会出现黑闪情况，于是乎阅读了下项目框架，并做了些小实验来查找出问题所在，记录下算作技术积累。</p>
+<h3 id="Acitvity跳转规则"><a href="#Acitvity跳转规则" class="headerlink" title="Acitvity跳转规则"></a>Acitvity跳转规则</h3><p>由于项目是由多个模块组成，项目为了模块间的跳转与外部唤起App内部保持一致，Acitvity以uri的形式表示，这样我们就通过uri进行跳转(startActivity)。在此情况下，增加一个中转页面(ForwardAcitvity),该页面是用于接受目标Acitvity的uri，并对其进行处理，然后跳转至目标页面。</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://rogerwp.github.io/2016/04/30/探讨有关singleTask在android5-0以上出现黑闪问题/" data-id="cio00gojw0001fbs688hijmx2" class="article-share-link">Share</a>
+      <a data-url="http://rogerwp.github.io/2016/04/30/探讨有关singleTask在android5-0以上出现黑闪问题/" data-id="cio6h4erz0001qts68k881jms" class="article-share-link">Share</a>
       
       
     </footer>
