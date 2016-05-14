@@ -87,14 +87,14 @@
 <meta name="description" content="最近项目在大部分android5.0+手机上，Activity跳转会出现黑闪情况，于是乎阅读了下项目框架，并做了些小实验来查找出问题所在，记录下算作技术积累。
 Acitvity跳转规则由于项目是由多个模块组成，项目为了模块间的跳转与外部唤起App内部保持一致，Acitvity以uri的形式表示，这样我们就通过uri进行跳转(startActivity)。在此情况下，增加一个中转页面(Forward">
 <meta property="og:type" content="article">
-<meta property="og:title" content="探讨有关singleTask在android5.0以上出现黑闪问题">
+<meta property="og:title" content="Android Intent SingleTask浅析">
 <meta property="og:url" content="http://rogerwp.github.io/2016/04/30/探讨有关singleTask在android5-0以上出现黑闪问题/index.html">
 <meta property="og:site_name" content="Roger的技术小屋">
 <meta property="og:description" content="最近项目在大部分android5.0+手机上，Activity跳转会出现黑闪情况，于是乎阅读了下项目框架，并做了些小实验来查找出问题所在，记录下算作技术积累。
 Acitvity跳转规则由于项目是由多个模块组成，项目为了模块间的跳转与外部唤起App内部保持一致，Acitvity以uri的形式表示，这样我们就通过uri进行跳转(startActivity)。在此情况下，增加一个中转页面(Forward">
-<meta property="og:updated_time" content="2016-05-14T01:26:48.000Z">
+<meta property="og:updated_time" content="2016-05-14T02:26:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="探讨有关singleTask在android5.0以上出现黑闪问题">
+<meta name="twitter:title" content="Android Intent SingleTask浅析">
 <meta name="twitter:description" content="最近项目在大部分android5.0+手机上，Activity跳转会出现黑闪情况，于是乎阅读了下项目框架，并做了些小实验来查找出问题所在，记录下算作技术积累。
 Acitvity跳转规则由于项目是由多个模块组成，项目为了模块间的跳转与外部唤起App内部保持一致，Acitvity以uri的形式表示，这样我们就通过uri进行跳转(startActivity)。在此情况下，增加一个中转页面(Forward">
 
@@ -114,7 +114,7 @@ Acitvity跳转规则由于项目是由多个模块组成，项目为了模块间
   };
 </script>
 
-  <title> 探讨有关singleTask在android5.0以上出现黑闪问题 | Roger的技术小屋 </title>
+  <title> Android Intent SingleTask浅析 | Roger的技术小屋 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -172,7 +172,7 @@ Acitvity跳转规则由于项目是由多个模块组成，项目为了模块间
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -182,7 +182,7 @@ Acitvity跳转规则由于项目是由多个模块组成，项目为了模块间
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -234,7 +234,7 @@ Acitvity跳转规则由于项目是由多个模块组成，项目为了模块间
             
             
               
-                探讨有关singleTask在android5.0以上出现黑闪问题
+                Android Intent SingleTask浅析
               
             
           </h1>
@@ -245,7 +245,7 @@ Acitvity跳转规则由于项目是由多个模块组成，项目为了模块间
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2016-04-30T23:21:42+08:00" content="2016-04-30">
               2016-04-30
             </time>
@@ -355,10 +355,10 @@ Acitvity跳转规则由于项目是由多个模块组成，项目为了模块间
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Table of Contents
+            Inhaltsverzeichnis
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
+            Übersicht
           </li>
         </ul>
       
@@ -375,7 +375,7 @@ Acitvity跳转规则由于项目是由多个模块组成，项目为了模块间
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">2</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
 
@@ -433,7 +433,7 @@ Acitvity跳转规则由于项目是由多个模块组成，项目为了模块间
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
