@@ -85,21 +85,18 @@
 
 
 <meta name="description" content="最近项目在大部分android5.0+手机上，Activity跳转会出现黑闪情况，于是乎阅读了下项目框架，并做了些小实验来查找出问题所在，记录下算作技术积累。
-通过对项目架构分析得知，模块间跳转及外部唤起Activity统一采用Uri的形式。通过ForwardActivity进行中转处理。
-Intent相关重要知识点以前，一直对Intent认知停留在显式、隐式（一知半解的程度），以为对Intent">
+通过对项目架构分析得知，模块间跳转及外部唤起Activity统一采用Uri的形式。通过ForwardActivity进行中转处理。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Activity跳转黑闪浅析">
 <meta property="og:url" content="http://rogerwp.github.io/2016/04/30/Android Intent SingleTask浅析/index.html">
 <meta property="og:site_name" content="Roger的技术小屋">
 <meta property="og:description" content="最近项目在大部分android5.0+手机上，Activity跳转会出现黑闪情况，于是乎阅读了下项目框架，并做了些小实验来查找出问题所在，记录下算作技术积累。
-通过对项目架构分析得知，模块间跳转及外部唤起Activity统一采用Uri的形式。通过ForwardActivity进行中转处理。
-Intent相关重要知识点以前，一直对Intent认知停留在显式、隐式（一知半解的程度），以为对Intent">
-<meta property="og:updated_time" content="2016-07-23T06:18:30.000Z">
+通过对项目架构分析得知，模块间跳转及外部唤起Activity统一采用Uri的形式。通过ForwardActivity进行中转处理。">
+<meta property="og:updated_time" content="2016-07-23T07:45:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Activity跳转黑闪浅析">
 <meta name="twitter:description" content="最近项目在大部分android5.0+手机上，Activity跳转会出现黑闪情况，于是乎阅读了下项目框架，并做了些小实验来查找出问题所在，记录下算作技术积累。
-通过对项目架构分析得知，模块间跳转及外部唤起Activity统一采用Uri的形式。通过ForwardActivity进行中转处理。
-Intent相关重要知识点以前，一直对Intent认知停留在显式、隐式（一知半解的程度），以为对Intent">
+通过对项目架构分析得知，模块间跳转及外部唤起Activity统一采用Uri的形式。通过ForwardActivity进行中转处理。">
 
 
 
@@ -289,6 +286,7 @@ Intent相关重要知识点以前，一直对Intent认知停留在显式、隐�
       
         <p>最近项目在大部分android5.0+手机上，Activity跳转会出现黑闪情况，于是乎阅读了下项目框架，并做了些小实验来查找出问题所在，记录下算作技术积累。</p>
 <p>通过对项目架构分析得知，模块间跳转及外部唤起Activity统一采用Uri的形式。通过ForwardActivity进行中转处理。</p>
+<a id="more"></a>
 <h2 id="Intent相关重要知识点"><a href="#Intent相关重要知识点" class="headerlink" title="Intent相关重要知识点"></a>Intent相关重要知识点</h2><p>以前，一直对Intent认知停留在显式、隐式（一知半解的程度），以为对Intent很是了解，后来遇到这个项目问题时，才认真重新对Intent进行理解，Intent不仅可用于应用程序内部的Activity/Service之间的交互，也可以应用于应用程序之间。这其中的奥秘就是Intent的隐式调用及Intent的匹配规则。</p>
 <p>所谓的隐式调用，即在没有明确指定组件名，Android系统会根据隐式意图中设置的动作(action)、类别(category)、数据（URI和数据类型）找到最合适的组件来处理这个意图。</p>
 <h3 id="Intent匹配流程："><a href="#Intent匹配流程：" class="headerlink" title="Intent匹配流程："></a>Intent匹配流程：</h3><ol>
