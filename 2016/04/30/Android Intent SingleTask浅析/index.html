@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="Roger的技术小屋">
 <meta property="og:description" content="最近项目在大部分android5.0+手机上，Activity跳转会出现黑闪情况，于是乎阅读了下项目框架，并做了些小实验来查找出问题所在，记录下算作技术积累。
 通过对项目架构分析得知，模块间跳转及外部唤起Activity统一采用Uri的形式。通过ForwardActivity进行中转处理。">
-<meta property="og:updated_time" content="2016-07-23T07:45:42.000Z">
+<meta property="og:updated_time" content="2016-08-08T12:32:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Activity跳转黑闪浅析">
 <meta name="twitter:description" content="最近项目在大部分android5.0+手机上，Activity跳转会出现黑闪情况，于是乎阅读了下项目框架，并做了些小实验来查找出问题所在，记录下算作技术积累。
@@ -109,7 +109,7 @@
     motion: true,
     duoshuo: {
       userId: 0,
-      author: 'Author'
+      author: '博主'
     }
   };
 </script>
@@ -117,7 +117,7 @@
   <title> Activity跳转黑闪浅析 | Roger的技术小屋 </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
 
@@ -172,7 +172,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            首页
           </a>
         </li>
       
@@ -182,7 +182,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Kategorien
+            分类
           </a>
         </li>
       
@@ -192,7 +192,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            归档
           </a>
         </li>
       
@@ -202,7 +202,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -255,7 +255,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <span class="post-meta-item-text">发表于</span>
             <time itemprop="dateCreated" datetime="2016-04-30T23:21:42+08:00" content="2016-04-30">
               2016-04-30
             </time>
@@ -299,22 +299,24 @@
 <ol>
 <li>动作（Action）检测</li>
 <li>种类（Category）检测</li>
-<li><p>数据（Data &amp; MimeType）检测</p>
+<li>数据（Data &amp; MimeType）检测</li>
+</ol>
 <p>SDK中说明的具体规则如下：</p>
-</li>
-<li><p>一个Intent对象既不包含URI，也不包含数据类型 ; 仅当过滤器也不指定任何URIs和数据类型时，才能通过检测；否则不能通过。</p>
-</li>
+<ol>
+<li>一个Intent对象既不包含URI，也不包含数据类型 ; 仅当过滤器也不指定任何URIs和数据类型时，才能通过检测；否则不能通过。</li>
 <li>一个Intent对象包含URI，但不包含数据类型：仅当过滤器也不指定数据类型，同时它们的URI匹配，才能通过检测。例如，mailto:和tel:都不指定实际数据。</li>
 <li>一个Intent对象包含数据类型，但不包含URI：仅当过滤也只包含数据类型且与Intent相同，才通过检测.</li>
 <li>一个Intent对象既包含URI，也包含数据类型（或数据类型能够从URI推断出） ; 数据类型部分，只有与过滤器中之一匹配才算通过；URI部分，它的URI要出现在过滤器中，或者它有content:或file: URI，又或者过滤器没有指定URI。换句话说，如果它的过滤器仅列出了数据类型，组件假定支持content:和file: 。</li>
 </ol>
 <h3 id="H5与Native相互跳转的相关知识点"><a href="#H5与Native相互跳转的相关知识点" class="headerlink" title="H5与Native相互跳转的相关知识点"></a>H5与Native相互跳转的相关知识点</h3><p>现在越来越多的App采用了Native + H5方式开发，其中Native与H5页面如何交互？google提供了一个公共的方式：js与native互调，即js可以调用Native方法，Native同样也可以调用js方法：</p>
 <p>但是这种交互方式存在着不少问题： </p>
-<p>1、Java 调用 js 里面的函数、效率并不是很高、估计要<font color="#436EEE"><br>200ms</font>左右吧、做交互性很强的事情、这种速度很难让人接受、而js去调Java的方法、速度很快、<font color="#436EEE">50ms</font>左右、所以尽量用js调用Java方法 。</p>
-<p>2、Java 调用 js 的函数、没有返回值、调用了就控制不到了。 </p>
-<p>3、Js 调用 Java 的方法、返回值如果是字符串、你会发现这个字符串是 native 的、转成 locale 的才能正常使用、使用 toLocaleString() 函数就可以了、不过这个函数的速度并不快、转化的字符串如果很多、将会很耗费时间 </p>
-<p>4、网页中尽量不要使用jQuery、执行起来需要<font color="#436EEE">5-6秒</font>、最好使用原生的js写业务脚本、以提升加载速度、改善用户体验 </p>
-<p>5、android4.2以下的系统存在着webview的js对象注入漏洞…</p>
+<ol>
+<li>Java 调用 js 里面的函数、效率并不是很高、估计要<font color="#436EEE"><br>200ms</font>左右吧、做交互性很强的事情、这种速度很难让人接受、而js去调Java的方法、速度很快、<font color="#436EEE">50ms</font>左右、所以尽量用js调用Java方法 。</li>
+<li>Java 调用 js 的函数、没有返回值、调用了就控制不到了。 </li>
+<li>Js 调用 Java 的方法、返回值如果是字符串、你会发现这个字符串是 native 的、转成 locale 的才能正常使用、使用 toLocaleString() 函数就可以了、不过这个函数的速度并不快、转化的字符串如果很多、将会很耗费时间。 </li>
+<li>网页中尽量不要使用jQuery、执行起来需要<font color="#436EEE">5-6秒</font>、最好使用原生的js写业务脚本、以提升加载速度、改善用户体验 </li>
+<li>android4.2以下的系统存在着webview的js对象注入漏洞…</li>
+</ol>
 <h3 id="URL-Scheme"><a href="#URL-Scheme" class="headerlink" title="URL Scheme"></a>URL Scheme</h3><p>什么是URL Scheme?</p>
 <p>是为方便app之间互相调用而设计的。你可以通过一个类似URL的链接，通过系统的OpenURl来打开该app，并可以传递一些参数。每个URL必须能唯一标识一个APP，如果你设置的URL与别的APP的URL冲突，此时，你的APP不一定会被调用起来，原因是当APP在安装的时候就已经在系统里面注册了此APP的URL Scheme，如果你的一致但是是后安装的，那么系统不会调用你的APP，因为你的APP设置的URL scheme被覆盖了。</p>
 <p>客户端应用可以向操作系统注册一个 URL scheme，该 scheme 用于从浏览器或其他应用中启动本应用。通过指定的 URL 字段，可以让应用在被调起后直接打开某些特定页面，比如订单详情页、消息通知页、促销广告页等等。也可以执行某些指定动作，如订单支付等。也可以在应用内通过 html 页来直接调用显示 app 内的某个页面。</p>
@@ -330,17 +332,17 @@
 </ol>
 <p>URL Scheme有什么用处？</p>
 <p>可以在其它程序中通过这个url打开应用程序。如Ａ应用程序注册了一个url scheme:myApp, 那么就在mobile浏览器中就可以通过<a href="href=’myApp://’">href=’myApp://’</a>打开你的应用程序Ａ。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;intent-filter&gt;  </span><br><span class="line">  &lt;category</span><br><span class="line">    android:name=&quot;android.intent.category.DEFAULT&quot;&gt;</span><br><span class="line">  &lt;/category&gt;  </span><br><span class="line">  &lt;action android:name=&quot;android.intent.action.VIEW&quot;&gt;</span><br><span class="line">  &lt;/action&gt;  </span><br><span class="line">  &lt;data android:scheme=&quot;myApp&quot;&gt;&lt;</span><br><span class="line">  /data&gt;  </span><br><span class="line">&lt;/intent-filter&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;intent-filter&gt;  </span><br><span class="line">  &lt;category</span><br><span class="line">    android:name="android.intent.category.DEFAULT"&gt;</span><br><span class="line">  &lt;/category&gt;  </span><br><span class="line">  &lt;action android:name="android.intent.action.VIEW"&gt;</span><br><span class="line">  &lt;/action&gt;  </span><br><span class="line">  &lt;data android:scheme="myApp"&gt;&lt;</span><br><span class="line">  /data&gt;  </span><br><span class="line">&lt;/intent-filter&gt;</span><br></pre></td></tr></table></figure>
 <p>然后通过Intent调用Activity 或在浏览器中调用A链接打开，如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">startActivity(new Intent(Intent.ACTION_VIEW,  </span><br><span class="line">           Uri.parse(&quot;myApp://?action=play&amp;data=12345&quot;)));      </span><br><span class="line">&lt;a href=&quot;myApp://?action=play&amp;data=12345&quot;&gt;打开你的应用程序&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">startActivity(new Intent(Intent.ACTION_VIEW,  </span><br><span class="line">           Uri.parse("myApp://?action=play&amp;data=12345")));      </span><br><span class="line">&lt;a href="myApp://?action=play&amp;data=12345"&gt;打开你的应用程序&lt;/a&gt;</span><br></pre></td></tr></table></figure>
 <p>在接收的Activity中使用如下代码获得数据:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//获得Scheme名称 </span><br><span class="line">this.getIntent().getScheme();</span><br><span class="line">//获得Uri全部路径</span><br><span class="line">this.getIntent().getDataString();</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获得Scheme名称 </span></span><br><span class="line"><span class="keyword">this</span>.getIntent().getScheme();</span><br><span class="line"><span class="comment">//获得Uri全部路径</span></span><br><span class="line"><span class="keyword">this</span>.getIntent().getDataString();</span><br></pre></td></tr></table></figure>
 <p>应用程序种Activity被调用分两种情况，一种是APP内部Acitvity之间通过startActivity进行跳转，另一种就是外部通过uri scheme对App内部Activity进行调用。当然，使用uri这种形式，则需要对其进行”注册”,所谓的注册，就是通过uri与Activity 进行映射，这个功能在项目中通过中转ForwardAcitvity(需要在AndroidManifest中加入sheme属性)完成，即通过uri的host找到对应的Activity，将其由隐式调用转换为显示调用。</p>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在项目中，当SingleTask的Activity再次被调用时，5.0以上大部分手机会产生黑闪现象（至今仍未能找到本质原因），通过不断测试，找出可能产生的原因，并加以避免该情况的发生。</p>
 <h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>创建四个Acitvity，MainActivity(SingleTask)、SecondActivity、ForwardActivity:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);</span><br><span class="line">        setSupportActionBar(toolbar);</span><br><span class="line">        FloatingActionButton fab = (FloatingActionButton)   </span><br><span class="line">                                     findViewById(R.id.fab);</span><br><span class="line">        fab.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View view) &#123;</span><br><span class="line">                Intent intent = new Intent(MainActivity.this, </span><br><span class="line">                       SecondActivity.class);</span><br><span class="line">                startActivity(intent);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class SecondActivity extends AppCompatActivity &#123;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_single_task_acitvity);</span><br><span class="line">        findViewById(R.id.bt).setOnClickListener(new </span><br><span class="line">                      View.OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View v) &#123;</span><br><span class="line">                Intent intent = new Intent(SecondActivity.this, </span><br><span class="line">                                     ForwardActivity.class);</span><br><span class="line">                startActivity(intent);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class ForwardActivity extends AppCompatActivity &#123;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_single_task_acitvity);</span><br><span class="line">        Intent intent = new Intent(ForwardActivity.this, </span><br><span class="line">                             MainActivity.class);</span><br><span class="line">        startActivity(intent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);</span><br><span class="line">        setSupportActionBar(toolbar);</span><br><span class="line">        FloatingActionButton fab = (FloatingActionButton)   </span><br><span class="line">                                     findViewById(R.id.fab);</span><br><span class="line">        fab.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">                Intent intent = <span class="keyword">new</span> Intent(MainActivity.<span class="keyword">this</span>, </span><br><span class="line">                       SecondActivity.class);</span><br><span class="line">                startActivity(intent);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecondActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_single_task_acitvity);</span><br><span class="line">        findViewById(R.id.bt).setOnClickListener(<span class="keyword">new</span> </span><br><span class="line">                      View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                Intent intent = <span class="keyword">new</span> Intent(SecondActivity.<span class="keyword">this</span>, </span><br><span class="line">                                     ForwardActivity.class);</span><br><span class="line">                startActivity(intent);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ForwardActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_single_task_acitvity);</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(ForwardActivity.<span class="keyword">this</span>, </span><br><span class="line">                             MainActivity.class);</span><br><span class="line">        startActivity(intent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>实验1：ForwardActivity不在onCreate中进行startActivity，而在Onclick中进行startActivity，则不会产生黑闪情况。</p>
 <p>实验2：SecondActivity中startActivity后加入finish();则不会产生黑闪情况。</p>
 <p>实验3：ForwardActivity theme 与ForwardActivity theme保持一致(都会透明或不透明)，则不会产生黑闪情况。</p>
@@ -436,10 +438,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            Inhaltsverzeichnis
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            Übersicht
+            站点概览
           </li>
         </ul>
       
@@ -456,7 +458,7 @@
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">5</span>
-              <span class="site-state-item-name">Artikel</span>
+              <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
@@ -466,7 +468,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">1</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-name">标签</span>
               </a>
             </div>
           
@@ -521,11 +523,11 @@
 </div>
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="http://hexo.io">Hexo</a>
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
-  Theme -
+  主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
